@@ -5,6 +5,7 @@ from colorama import Fore, Style
 
 from enums.command import CommandStatus
 from loader import log
+from sh.command import execute_command
 
 
 class CommandAction(Enum):
@@ -31,7 +32,7 @@ def run_with_retry(command: List[str]) -> None:
 
     while cmd_status == CommandStatus.FAILED:
         try:
-            subprocess.run(command, check=True, bufsize=0)
+            execute_command(command)
             cmd_status = CommandStatus.SUCCESS
         except subprocess.CalledProcessError:
             log.error(f"Command \"{' '.join(command)}\" has failed.")
@@ -39,7 +40,7 @@ def run_with_retry(command: List[str]) -> None:
 
             log.info("Options:")
             for action, description in ACTION_DESCRIPTIONS.items():
-                log.info(f"  {action.value} = {description}")
+                log.log('PRINT', f"{Fore.YELLOW}{action.value}{Style.RESET_ALL} = {description}")
 
             user_input = input(f"{Fore.BLUE} [r/e/i]: {Style.RESET_ALL}").strip().lower()
 

@@ -4,6 +4,7 @@ from enum import Enum
 from colorama import Fore, Style
 
 from loader import log
+from sh.command import execute_command
 from state.execution import ExecutionState
 
 
@@ -63,7 +64,7 @@ def run_interactive(command: List[str], state: ExecutionState) -> None:
         while True:
             log.info("Execute?")
             for action, description in PROMPT_DESCRIPTIONS.items():
-                print(f"  {Fore.YELLOW}{action.value}{Style.RESET_ALL} = {description}")
+                log.log('PRINT', f"{Fore.YELLOW}{action.value}{Style.RESET_ALL} = {description}")
 
             user_input = input(Fore.BLUE + "====> ").strip().lower()
 
@@ -76,9 +77,9 @@ def run_interactive(command: List[str], state: ExecutionState) -> None:
 
     if execute:
         try:
-            subprocess.run(command, check=True, bufsize=0)
+            execute_command(command)
             log.success("Command executed successfully.")
         except subprocess.CalledProcessError as e:
             log.error("Command failed")
     else:
-        log.error(f"Skipped command: {" ".join(command)}")
+        log.warning(f"Skipped command: {" ".join(command)}")

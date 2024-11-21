@@ -7,7 +7,6 @@ authors = ["0zd0 <67220210+0zd0@users.noreply.github.com>"]
 [tool.poetry.dependencies]
 python = "^3.11"
 environs = "^11.2.1"
-colorama = "^0.4.6"
 loguru = "^0.7.2"
 
 

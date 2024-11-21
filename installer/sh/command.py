@@ -2,31 +2,17 @@ import subprocess
 from typing import Union, List
 
 
-def execute_command(command: List[str]) -> int:
+def execute_command(cmd: Union[str, List[str]]) -> subprocess.CompletedProcess[str]:
     """
     Executes a command and streams its output in real-time.
 
     Args:
-        command (List[str]): The command to execute as a list of arguments.
-
-    Returns:
-        int: The return code of the executed command.
+        cmd (List[str]): The command to execute as a list of arguments.
     """
-    process = subprocess.Popen(
-        command,
-        stdout=subprocess.PIPE,
-        stderr=subprocess.STDOUT,
-        text=True,
-    )
-
-    for line in iter(process.stdout.readline, ""):
-        print(line, end="")
-
-    process.wait()
-    return process.returncode
+    return subprocess.run(cmd, check=True, text=True, bufsize=0, shell=isinstance(cmd, str))
 
 
-def try_command(cmd: Union[str, List[str]]) -> None:
+def try_command(cmd: Union[str, List[str]]) -> subprocess.CompletedProcess[str]:
     """
     Attempts to execute a shell command
 
@@ -34,9 +20,6 @@ def try_command(cmd: Union[str, List[str]]) -> None:
         cmd (Union[str, List[str]]): Command to execute as a string or list.
     """
     try:
-        if isinstance(cmd, str):
-            subprocess.run(cmd, shell=True, check=True)
-        else:
-            subprocess.run(cmd, check=True, text=True, bufsize=0)
+        return execute_command(cmd)
     except subprocess.CalledProcessError as e:
         print(f"Command failed: {e}")
