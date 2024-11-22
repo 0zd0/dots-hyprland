@@ -32,9 +32,7 @@ def run_with_retry(cmd: Union[str, List[str]]) -> None:
 
     while cmd_status == CommandStatus.FAILED:
         try:
-            print('ok')
             execute_command(cmd)
-            print('ok2')
             cmd_status = CommandStatus.SUCCESS
         except subprocess.CalledProcessError:
             log.error(f"Command \"{' '.join(cmd)}\" has failed.")

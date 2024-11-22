@@ -1,4 +1,5 @@
 import subprocess
+import sys
 from typing import Union, List
 
 
@@ -12,36 +13,45 @@ def execute_command(cmd: Union[str, List[str]]) -> subprocess.CompletedProcess:
     Returns:
         subprocess.CompletedProcess: The result of the executed command.
     """
-    print(cmd)
     process = subprocess.Popen(
         cmd,
-        text=True,
+        shell=isinstance(cmd, str),
         stdout=subprocess.PIPE,
         stderr=subprocess.PIPE,
-        shell=isinstance(cmd, str)
+        text=True
     )
 
     stdout_lines = []
     stderr_lines = []
 
-    # Stream output in real-time
     for line in process.stdout:
-        print(line, end="")  # Print stdout in real-time
+        sys.stdout.write(line)
+        sys.stdout.flush()
         stdout_lines.append(line)
 
     for line in process.stderr:
-        print(line, end="")  # Print stderr in real-time
+        sys.stderr.write(line)
+        sys.stderr.flush()
         stderr_lines.append(line)
 
     process.wait()
 
-    # Collect result for return
-    return subprocess.CompletedProcess(
+    completed_process = subprocess.CompletedProcess(
         args=cmd,
         returncode=process.returncode,
         stdout="".join(stdout_lines),
         stderr="".join(stderr_lines)
     )
+
+    if process.returncode != 0:
+        raise subprocess.CalledProcessError(
+            returncode=process.returncode,
+            cmd=cmd,
+            output=completed_process.stdout,
+            stderr=completed_process.stderr
+        )
+
+    return completed_process
 
 
 def try_command(cmd: Union[str, List[str]]) -> subprocess.CompletedProcess[str]:
