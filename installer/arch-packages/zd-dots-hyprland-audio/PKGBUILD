@@ -1,0 +1,14 @@
+pkgname=zd-dots-hyprland-audio
+pkgver=1.0
+pkgrel=1
+pkgdesc='zd-dots-hyprland Audio Dependencies'
+arch=('any')
+license=('custom')
+depends=(
+	'pavucontrol'
+	'wireplumber'
+	'libdbusmenu-gtk3'
+	'playerctl'
+)
+source=()
+sha256sums=()

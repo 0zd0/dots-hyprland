@@ -1,0 +1,12 @@
+pkgname=zd-dots-hyprland-screen
+pkgver=1.0
+pkgrel=1
+pkgdesc='zd-dots-hyprland Screen Dependencies'
+arch=('any')
+license=('custom')
+depends=(
+	'brightnessctl'
+	'ddcutil'
+)
+source=()
+sha256sums=()

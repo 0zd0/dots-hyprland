@@ -1,0 +1,16 @@
+[tool.poetry]
+name = "installer-zd-dots-hyprland"
+version = "1.0.0"
+description = ""
+authors = ["0zd0 <67220210+0zd0@users.noreply.github.com>"]
+
+[tool.poetry.dependencies]
+python = "^3.11"
+environs = "^11.2.1"
+loguru = "^0.7.2"
+colorama = "^0.4.6"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

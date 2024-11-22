@@ -1,0 +1,11 @@
+pkgname=zd-dots-hyprland-widgets
+pkgver=1.0
+pkgrel=1
+pkgdesc='zd-dots-hyprland Widgets Dependencies'
+arch=('any')
+license=('custom')
+depends=(
+	'rofi-wayland'
+)
+source=()
+sha256sums=()
