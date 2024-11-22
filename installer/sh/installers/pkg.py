@@ -5,15 +5,21 @@ from typing import List
 
 from loader import log
 from sh.runners.with_retry import run_with_retry
+from state.execution import ExecutionState
 
 
-def install_local_pkgbuild(location: Path, install_flags: List[str]) -> None:
+def install_local_pkgbuild(
+        location: Path,
+        install_flags: List[str],
+        execution_state: ExecutionState
+) -> None:
     """
     Install a local PKGBUILD package.
 
-    Args:
-        location (Path): Path to the directory containing the PKGBUILD.
-        install_flags (str): Additional flags for the installation.
+    :param location:
+    :param install_flags:
+    :param execution_state:
+    :return:
     """
     if not location.exists() or not location.is_dir():
         log.error(f"Error: Directory {location} does not exist.")
@@ -24,7 +30,7 @@ def install_local_pkgbuild(location: Path, install_flags: List[str]) -> None:
     try:
         os.chdir(location)
         run_with_retry(["yay", '-S', *install_flags, '--asdeps', *get_dependencies()])
-        run_with_retry(["makepkg", '-si', '--noconfirm'])
+        run_with_retry(["makepkg", '-si'] + (['--noconfirm'] if not execution_state.ask else []))
     finally:
         os.chdir(current_dir)
 
@@ -33,8 +39,7 @@ def get_dependencies() -> list[str]:
     """
     Parse dependencies from the PKGBUILD file.
 
-    Returns:
-        list[str]: List of dependencies.
+    :return: List of dependencies.
     """
     pkgbuild = "PKGBUILD"
     if not Path(pkgbuild).exists():

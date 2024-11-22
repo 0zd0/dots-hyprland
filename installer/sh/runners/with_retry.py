@@ -25,8 +25,8 @@ def run_with_retry(cmd: Union[str, List[str]]) -> None:
     """
     Executes a command with retry and error-handling options.
 
-    Args:
-        cmd (List[str]): The command to execute as a list of arguments.
+    :param cmd: The command to execute as a list of arguments.
+    :return:
     """
     cmd_status = CommandStatus.FAILED
 

@@ -30,8 +30,14 @@ def install():
         install_yay()
 
     for name in META_PACKAGE_NAMES:
-        install_flags = ['--needed', '--noconfirm']
-        install_local_pkgbuild(Path(f"{META_PACKAGES_PATH}/{META_PACKAGES_PREFIX}-{name}"), install_flags)
+        install_flags = ['--needed']
+        if not execution_state.ask:
+            install_flags.append('--noconfirm')
+        install_local_pkgbuild(
+            Path(f"{META_PACKAGES_PATH}/{META_PACKAGES_PREFIX}-{name}"),
+            install_flags,
+            execution_state
+        )
 
 
 if __name__ == '__main__':

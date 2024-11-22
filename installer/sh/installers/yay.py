@@ -1,5 +1,4 @@
 import os
-from colorama import Fore
 
 from loader import log
 from sh.runners.with_retry import run_with_retry

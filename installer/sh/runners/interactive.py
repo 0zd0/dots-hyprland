@@ -27,9 +27,9 @@ def run_interactive(command: List[str], state: ExecutionState) -> None:
     """
     Executes a command interactively with user confirmation and colorful output.
 
-    Args:
-        command (List[str]): The command to execute as a list of arguments.
-        state (ExecutionState): Shared execution state containing the `ask` flag.
+    :param command: The command to execute as a list of arguments.
+    :param state: Shared execution state containing the `ask` flag.
+    :return:
     """
     log.info("#" * 52)
     log.info('Next command:')
