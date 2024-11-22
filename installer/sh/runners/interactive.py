@@ -1,4 +1,4 @@
-from typing import List
+from typing import List, Union
 from enum import Enum
 from colorama import Fore, Style
 
@@ -22,17 +22,18 @@ PROMPT_DESCRIPTIONS = {
 }
 
 
-def run_interactive(command: List[str], state: ExecutionState) -> None:
+def run_interactive(cmd: Union[str, List[str]], state: ExecutionState) -> None:
     """
     Executes a command interactively with user confirmation and colorful output.
 
-    :param command: The command to execute as a list of arguments.
+    :param cmd: The command to execute as a list of arguments.
     :param state: Shared execution state containing the `ask` flag.
     :return:
     """
+    cmd_str = " ".join(cmd) if isinstance(cmd, list) else cmd
     log.info("#" * 52)
     log.info('Next command:')
-    log.success(" ".join(command))
+    log.success(cmd_str)
 
     execute = True
 
@@ -75,6 +76,6 @@ def run_interactive(command: List[str], state: ExecutionState) -> None:
                 log.error("Please enter a valid option: [y/e/s/yesforall].")
 
     if execute:
-        run_with_retry(command)
+        run_with_retry(cmd)
     else:
-        log.warning(f"Skipped command: {" ".join(command)}")
+        log.warning(f"Skipped command: {" ".join(cmd_str)}")

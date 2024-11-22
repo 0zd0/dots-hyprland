@@ -33,12 +33,12 @@ def sync_configs(
 
         if item.is_dir():
             run_interactive(
-                ["rsync", "-av", "--delete", f"{item}/", f"{target_path}/"],
+                f'rsync -av --delete "{item}/" "{target_path}/"',
                 state
             )
         elif item.is_file():
             run_interactive(
-                ["rsync", "-av", str(item), str(target_path)],
+                f'rsync -av "{item}" "{target_path}"',
                 state
             )
 
@@ -61,15 +61,9 @@ def sync_hyprland_config(
     :return: existed_hypr_conf
     """
     run_interactive(
-        [
-            "rsync",
-            "-av",
-            "--delete",
-            f"--exclude=/{custom_dir_name}",
-            f"--exclude=/{hyprland_conf_name}",
-            f"{source_config}/",
-            f"{target_config}/",
-        ],
+        f"rsync -av --delete "
+        f"--exclude=/{custom_dir_name} --exclude=/{hyprland_conf_name} "
+        f"{source_config}/ {target_config}/",
         state
     )
     hyprland_conf = target_config / hyprland_conf_name
@@ -104,13 +98,8 @@ def sync_hyprland_config(
     else:
         log.warning(f'"{custom_dir}" does not exist yet.')
         run_interactive(
-            [
-                "rsync",
-                "-av",
-                "--delete",
-                f"{source_config / custom_dir_name}/",
-                f"{custom_dir}/",
-            ],
+            f"rsync -av --delete "
+            f"{source_config / custom_dir_name}/ {custom_dir}/",
             state
         )
 

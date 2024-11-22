@@ -27,7 +27,8 @@ META_PACKAGE_NAMES = [
     'widgets',
 ]
 RELATIVE_CONFIGS_PATH = '../.config'
-EXCLUDE_AUTO_SYNC_CONFIGS = ["hypr"]
+HYPRLAND_CONFIG_FOLDER = 'hypr'
+EXCLUDE_AUTO_SYNC_CONFIGS = [HYPRLAND_CONFIG_FOLDER]
 
 
 def install():
@@ -77,8 +78,8 @@ def install():
     )
 
     existed_hypr_conf = sync_hyprland_config(
-        Path(RELATIVE_CONFIGS_PATH),
-        Path(XDG_CONFIG_HOME),
+        Path(f'{RELATIVE_CONFIGS_PATH}/{HYPRLAND_CONFIG_FOLDER}'),
+        Path(f'{XDG_CONFIG_HOME}/{HYPRLAND_CONFIG_FOLDER}'),
         execution_state,
     )
 
