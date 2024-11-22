@@ -1,6 +1,6 @@
 import subprocess
 from enum import Enum
-from typing import List
+from typing import List, Union
 from colorama import Fore, Style
 
 from enums.command import CommandStatus
@@ -21,27 +21,30 @@ ACTION_DESCRIPTIONS = {
 }
 
 
-def run_with_retry(command: List[str]) -> None:
+def run_with_retry(cmd: Union[str, List[str]]) -> None:
     """
     Executes a command with retry and error-handling options.
 
     Args:
-        command (List[str]): The command to execute as a list of arguments.
+        cmd (List[str]): The command to execute as a list of arguments.
     """
     cmd_status = CommandStatus.FAILED
 
     while cmd_status == CommandStatus.FAILED:
         try:
-            execute_command(command)
+            print('ok')
+            execute_command(cmd)
+            print('ok2')
             cmd_status = CommandStatus.SUCCESS
         except subprocess.CalledProcessError:
-            log.error(f"Command \"{' '.join(command)}\" has failed.")
+            log.error(f"Command \"{' '.join(cmd)}\" has failed.")
             log.warning("You may need to resolve the problem manually BEFORE repeating this command.")
 
             log.info("Options:")
             for action, description in ACTION_DESCRIPTIONS.items():
                 log.log('PRINT', f"{Fore.YELLOW}{action.value}{Style.RESET_ALL} = {description}")
 
+            log.complete()
             user_input = input(f"{Fore.BLUE} [r/e/i]: {Style.RESET_ALL}").strip().lower()
 
             try:
@@ -58,7 +61,7 @@ def run_with_retry(command: List[str]) -> None:
                 log.error("Invalid input. Please choose one of the available options.")
 
     if cmd_status == CommandStatus.SUCCESS:
-        log.success(f"Command \"{' '.join(command)}\" finished.")
+        log.success(f"Command \"{' '.join(cmd)}\" finished.")
     elif cmd_status == CommandStatus.IGNORED:
-        log.warning(f"Command \"{' '.join(command)}\" failed but was ignored by user.")
+        log.warning(f"Command \"{' '.join(cmd)}\" failed but was ignored by user.")
 

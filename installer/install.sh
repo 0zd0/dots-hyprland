@@ -6,8 +6,8 @@ REQUIRED_VERSION_PYTHON="3.11"
 INSTALL_SCRIPT_PYTHON="installer/install.py"
 PYTHON_BIN="python3"
 
-REMOTE_REPO="0zd0/dots-hyprland"
-CACHE_DIR="${HOME}/.cache/dots-setup"
+REMOTE_REPO="0zd0/zd-dots-hyprland"
+CACHE_DIR="${HOME}/.cache/zd-dots-hyprland-install"
 INSTALLER_DIR="${CACHE_DIR}/installer"
 VENV_DIR="${INSTALLER_DIR}/.venv"
 
