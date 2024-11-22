@@ -1,10 +1,9 @@
-import subprocess
 from typing import List
 from enum import Enum
 from colorama import Fore, Style
 
 from loader import log
-from sh.command import execute_command
+from sh.runners.with_retry import run_with_retry
 from state.execution import ExecutionState
 
 
@@ -76,10 +75,6 @@ def run_interactive(command: List[str], state: ExecutionState) -> None:
                 log.error("Please enter a valid option: [y/e/s/yesforall].")
 
     if execute:
-        try:
-            execute_command(command)
-            log.success("Command executed successfully.")
-        except subprocess.CalledProcessError as e:
-            log.error("Command failed")
+        run_with_retry(command)
     else:
         log.warning(f"Skipped command: {" ".join(command)}")
