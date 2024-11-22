@@ -18,7 +18,7 @@ def execute_command(cmd: Union[str, List[str]]) -> subprocess.CompletedProcess:
         shell=isinstance(cmd, str),
         stdout=subprocess.PIPE,
         stderr=subprocess.PIPE,
-        text=True
+        text=True,
     )
 
     stdout_lines = []
@@ -30,8 +30,8 @@ def execute_command(cmd: Union[str, List[str]]) -> subprocess.CompletedProcess:
         stdout_lines.append(line)
 
     for line in process.stderr:
-        sys.stderr.write(line)
-        sys.stderr.flush()
+        sys.stdout.write(line)
+        sys.stdout.flush()
         stderr_lines.append(line)
 
     process.wait()

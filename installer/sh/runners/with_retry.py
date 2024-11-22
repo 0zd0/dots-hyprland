@@ -43,7 +43,7 @@ def run_with_retry(cmd: Union[str, List[str]]) -> None:
                 log.log('PRINT', f"{Fore.YELLOW}{action.value}{Style.RESET_ALL} = {description}")
 
             log.complete()
-            user_input = input(f"{Fore.BLUE} [r/e/i]: {Style.RESET_ALL}").strip().lower()
+            user_input = input(f"{Fore.BLUE}[r/e/i]: {Style.RESET_ALL}").strip().lower()
 
             try:
                 selected_action = CommandAction(user_input)

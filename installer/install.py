@@ -13,8 +13,10 @@ from utils.sudo import check_sudo_privileges
 META_PACKAGES_PATH = './arch-packages'
 META_PACKAGES_PREFIX = 'zd-dots-hyprland'
 META_PACKAGE_NAMES = [
+    'basic',
     'audio',
     'screen',
+    'widgets',
 ]
 
 

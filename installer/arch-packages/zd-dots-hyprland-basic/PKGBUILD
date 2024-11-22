@@ -1,0 +1,22 @@
+pkgname=zd-dots-hyprland-basic
+pkgver=1.0
+pkgrel=1
+pkgdesc='zd-dots-hyprland Basic Dependencies'
+arch=('any')
+license=('custom')
+depends=(
+	'cliphist'
+	'cmake'
+	'curl'
+	'rsync'
+	'wget'
+	'ripgrep'
+	'jq'
+	'npm'
+	'meson'
+	'typescript'
+	'gjs'
+	'xdg-user-dirs'
+)
+source=()
+sha256sums=()
