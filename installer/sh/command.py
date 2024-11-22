@@ -1,3 +1,5 @@
+import os
+import pty
 import subprocess
 import sys
 from typing import Union, List
@@ -13,45 +15,33 @@ def execute_command(cmd: Union[str, List[str]]) -> subprocess.CompletedProcess:
     Returns:
         subprocess.CompletedProcess: The result of the executed command.
     """
+
+    master_fd, slave_fd = pty.openpty()
     process = subprocess.Popen(
         cmd,
         shell=isinstance(cmd, str),
-        stdout=subprocess.PIPE,
-        stderr=subprocess.PIPE,
+        stdin=sys.stdin,
+        stdout=slave_fd,
+        stderr=slave_fd,
         text=True,
     )
 
-    stdout_lines = []
-    stderr_lines = []
+    os.close(slave_fd)
 
-    for line in process.stdout:
-        sys.stdout.write(line)
-        sys.stdout.flush()
-        stdout_lines.append(line)
-
-    for line in process.stderr:
-        sys.stdout.write(line)
-        sys.stdout.flush()
-        stderr_lines.append(line)
+    try:
+        while True:
+            try:
+                output = os.read(master_fd, 1024).decode('utf-8', errors='replace')
+                if output:
+                    sys.stdout.write(output)
+                    sys.stdout.flush()
+            except OSError:
+                break
+    finally:
+        os.close(master_fd)
 
     process.wait()
-
-    completed_process = subprocess.CompletedProcess(
-        args=cmd,
-        returncode=process.returncode,
-        stdout="".join(stdout_lines),
-        stderr="".join(stderr_lines)
-    )
-
-    if process.returncode != 0:
-        raise subprocess.CalledProcessError(
-            returncode=process.returncode,
-            cmd=cmd,
-            output=completed_process.stdout,
-            stderr=completed_process.stderr
-        )
-
-    return completed_process
+    return process.returncode
 
 
 def try_command(cmd: Union[str, List[str]]) -> subprocess.CompletedProcess[str]:
