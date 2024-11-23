@@ -48,7 +48,7 @@ def sync_hyprland_config(
     target_config: Path,
     state: ExecutionState,
     hyprland_conf_name: str = "hyprland.conf",
-    custom_dir_name: str = "custom"
+    local_dir_name: str = "local"
 ) -> bool:
     """
     Synchronizes and manages Hyprland configuration files.
@@ -57,12 +57,12 @@ def sync_hyprland_config(
     :param target_config:
     :param state:
     :param hyprland_conf_name:
-    :param custom_dir_name:
+    :param local_dir_name:
     :return: existed_hypr_conf
     """
     run_interactive(
         f"rsync -av --delete "
-        f"--exclude=/{custom_dir_name} --exclude=/{hyprland_conf_name} "
+        f"--exclude=/{local_dir_name} --exclude=/{hyprland_conf_name} "
         f"{source_config}/ {target_config}/",
         state
     )
@@ -92,14 +92,14 @@ def sync_hyprland_config(
         )
         existed_hypr_conf = False
 
-    custom_dir = target_config / custom_dir_name
+    custom_dir = target_config / local_dir_name
     if custom_dir.is_dir():
         log.info(f'"{custom_dir}" already exists, will not do anything.')
     else:
         log.warning(f'"{custom_dir}" does not exist yet.')
         run_interactive(
             f"rsync -av --delete "
-            f"{source_config / custom_dir_name}/ {custom_dir}/",
+            f"{source_config / local_dir_name}/ {custom_dir}/",
             state
         )
 
