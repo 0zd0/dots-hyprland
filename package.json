@@ -1,0 +1,6 @@
+{
+  "scripts": {
+    "watch:configs": "cd ./tools/watcher && poetry run python main.py",
+    "ags": "ags quit; ags"
+  }
+}

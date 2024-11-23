@@ -21,4 +21,4 @@ App.config({
     windows: [
         Overview(),
     ],
-});
+})

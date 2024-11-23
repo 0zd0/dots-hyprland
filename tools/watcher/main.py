@@ -54,7 +54,6 @@ class FolderHandler(FileSystemEventHandler):
                 if self.should_skip(str(src_path)):
                     continue
 
-                # Получаем относительный путь
                 rel_path = src_path.relative_to(self.source)
                 target_path = self.target / rel_path
 

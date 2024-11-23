@@ -13,11 +13,11 @@ const cheatsheets = [
         materialIcon: 'keyboard',
         contentWidget: Keybinds,
     },
-    {
-        name: getString('Periodic table'),
-        materialIcon: 'experiment',
-        contentWidget: PeriodicTable,
-    },
+    // {
+    //     name: getString('Periodic table'),
+    //     materialIcon: 'experiment',
+    //     contentWidget: PeriodicTable,
+    // },
 ];
 
 const CheatsheetHeader = () => Widget.CenterBox({

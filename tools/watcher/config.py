@@ -25,5 +25,10 @@ config = [
         source=Path(os.path.abspath(f'{PROJECT_CONFIG_PATH}/{HYPRLAND_CONFIG_NAME}')),
         target=Path(os.path.join(HOME_CONFIGS_FULL_PATH, HYPRLAND_CONFIG_NAME)),
         excludes={*DEFAULT_EXCLUDE, 'local'}
+    ),
+    SyncPair(
+        source=Path(os.path.abspath(f'{PROJECT_CONFIG_PATH}/ags')),
+        target=Path(os.path.join(HOME_CONFIGS_FULL_PATH, 'ags')),
+        excludes={*DEFAULT_EXCLUDE}
     )
 ]
