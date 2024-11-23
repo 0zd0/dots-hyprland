@@ -1,0 +1,18 @@
+[tool.poetry]
+name = "watcher"
+version = "0.1.0"
+description = ""
+authors = ["0zd0 <67220210+0zd0@users.noreply.github.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+dirsync = "^2.2.5"
+pydantic = "^2.10.1"
+environs = "^11.2.1"
+watchdog = "^6.0.0"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
