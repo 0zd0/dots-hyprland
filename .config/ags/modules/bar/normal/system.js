@@ -47,17 +47,17 @@ const BarClock = () => Widget.Box({
     className: 'spacing-h-4 bar-clock-box',
     children: [
         Widget.Label({
-            className: 'bar-time',
+            className: 'txt-smallie bar-date',
             label: time.bind(),
         }),
-        Widget.Label({
-            className: 'txt-norm txt-onLayer1',
-            label: '•',
-        }),
-        Widget.Label({
-            className: 'txt-smallie bar-date',
-            label: date.bind(),
-        }),
+        // Widget.Label({
+        //     className: 'txt-norm txt-onLayer1',
+        //     label: ' ',
+        // }),
+        // Widget.Label({
+        //     className: 'txt-smallie bar-date',
+        //     label: date.bind(),
+        // }),
     ],
 });
 
@@ -230,7 +230,7 @@ export default () => Widget.EventBox({
         className: 'spacing-h-4',
         children: [
             BarGroup({ child: BarClock() }),
-            BatteryModule(),
+            // BatteryModule(),
         ]
     })
 });
