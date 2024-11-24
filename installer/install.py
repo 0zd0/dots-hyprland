@@ -7,6 +7,7 @@ from sh.command import try_command
 from sh.installers.hyprland import install_hyprland
 from sh.installers.pkg import install_local_pkgbuild
 from sh.installers.yay import install_yay
+from sh.installers.zdhpctl import install_zdhpctl
 from sh.runners.interactive import run_interactive
 from steps.config import sync_configs, sync_hyprland_config
 from steps.folder import create_folders
@@ -52,6 +53,8 @@ def install():
 
     if not is_hyprland_installed():
         install_hyprland(execution_state)
+
+    install_zdhpctl(execution_state)
 
     add_user_to_groups(execution_state)
     # TODO: understand whether this is necessary for my use
