@@ -1,3 +1,4 @@
+import fnmatch
 import hashlib
 import logging
 import shutil
@@ -40,10 +41,32 @@ class FolderHandler(FileSystemEventHandler):
         if Path(event.src_path).is_relative_to(self.source):
             self.queue.put(("delete", Path(event.src_path)))
 
-    def should_skip(self, path: str) -> bool:
-        return any(x in path for x in self.sync_pair.excludes)
+    def should_skip(self, path: Path) -> bool:
+        try:
+            rel_path = Path(path).relative_to(self.source)
+        except ValueError:
+            return False
 
-    def get_file_hash(self, path: Path) -> str:
+        str_path = str(rel_path).replace('\\', '/')
+        if path.is_dir():
+            str_path += '/'
+
+        for pattern in self.sync_pair.excludes:
+            if '**' in pattern:
+                if fnmatch.fnmatch(str_path, pattern):
+                    return True
+            else:
+                path_parts = str_path.split('/')
+                for part in path_parts:
+                    if fnmatch.fnmatch(part, pattern):
+                        return True
+                    if pattern.endswith('/') and fnmatch.fnmatch(str_path, pattern):
+                        return True
+
+        return False
+
+    @staticmethod
+    def get_file_hash(path: Path) -> str:
         with open(path, "rb") as f:
             return hashlib.md5(f.read()).hexdigest()
 
@@ -51,7 +74,7 @@ class FolderHandler(FileSystemEventHandler):
         while True:
             try:
                 event_type, src_path = self.queue.get(timeout=1.0)
-                if self.should_skip(str(src_path)):
+                if self.should_skip(src_path):
                     continue
 
                 rel_path = src_path.relative_to(self.source)
